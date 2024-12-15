@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USIOT Plagarism Detector</title>
+</head>
+
+<body>
+  <h1>USIOT Plagarism Detector</h1>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <label for="fileInput">Upload your file:</label>
+    <input type="file" id="fileInput" name="file" required>
+    <button type="submit">Scan File</button>
+  </form>
+  <div id="response"></div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      try {
+        const response = await fetch('/upload', {
+          method: 'POST',
+          body: formData,
+        });
+        const result = await response.json();
+        document.getElementById('response').innerText = JSON.stringify(result);
+      } catch (error) {
+        document.getElementById('response').innerText = 'Error: ' + error.message;
+      }
+    });
+  </script>
+</body>
+
+</html>
